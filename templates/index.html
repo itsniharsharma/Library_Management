@@ -1,170 +1,3 @@
-<!-- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Management System</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container">
-
-        <h1 class="mt-5">Library Management System</h1>
-        <form id="book-form" class="mt-4">
-
-            <input type="text" id="title" placeholder="Title" required>
-            <input type="text" id="author" placeholder="Author" required>
-            <input type="text" id="genre" placeholder="Genre">
-            <input type="date" id="published_date">
-            <button type="submit">Add Book</button>
-
-        </form>
-        <h2 class="mt-5">Books</h2>
-        <ul id="book-list" class="list-group mt-3"></ul>
-
-
-
-
-
-        <h2 class="mt-5">Student Registration</h2>
-        <form id="student-form">
-            <input type="text" id="student-name" placeholder="Name" required>
-            <input type="text" id="rollnumber" placeholder="Roll Number" required>
-            <select id="course" required>
-                <option value="">Select Course</option>
-                <option value="COE">COE</option>
-                <option value="ECE">ECE</option>
-                <option value="ENC">ENC</option>
-                <option value="COPC">COPC</option>
-            </select>
-            <input type="number" id="book_id" placeholder="Book ID" required>
-            <button type="submit" class="btn btn-success">Register Student</button>
-        </form>
-
-        <h2 class="mt-4">Students</h2>
-        <ul id="student-list" class="list-group mt-3"></ul>
-
-
-    </div>
-
-    <script>
-        document.getElementById('book-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const title = document.getElementById('title').value;
-            const author = document.getElementById('author').value;
-            const genre = document.getElementById('genre').value;
-            const published_date = document.getElementById('published_date').value;
-
-            fetch('/books', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ title, author, genre, published_date })
-            })
-            .then(response => response.json())
-            .then(data => {
-                addBookToList(data);
-                document.getElementById('book-form').reset();
-            });
-        });
-
-        function addBookToList(book) {
-            const li = document.createElement('li');
-            li.className = 'list-group-item';
-            li.textContent = `ID: ${book.id} - ${book.title} by ${book.author}`; // Include book ID
-            
-            // Create Edit button
-            const editButton = document.createElement('button');
-            editButton.textContent = 'Edit';
-            editButton.className = 'btn btn-warning btn-sm float-right';
-            editButton.onclick = () => editBook(book);
-            
-            // Create Delete button
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Delete';
-            deleteButton.className = 'btn btn-danger btn-sm float-right mr-2';
-            deleteButton.onclick = () => deleteBook(book.id, li); // Pass the list item to remove it
-            
-            li.appendChild(editButton);
-            li.appendChild(deleteButton);
-            document.getElementById('book-list').appendChild(li);
-        }
-
-        // Fetch and display books on page load
-        fetch('/books')
-            .then(response => response.json())
-            .then(books => {
-                books.forEach(addBookToList);
-            });
-
-        function editBook(book) {
-            document.getElementById('title').value = book.title;
-            document.getElementById('author').value = book.author;
-            document.getElementById('genre').value = book.genre;
-            document.getElementById('published_date').value = book.published_date;
-
-            // Change the form to update mode
-            document.getElementById('book-form').onsubmit = function(e) {
-                e.preventDefault();
-                updateBook(book.id);
-            };
-        }
-
-        function updateBook(bookId) {
-            const title = document.getElementById('title').value;
-            const author = document.getElementById('author').value;
-            const genre = document.getElementById('genre').value;
-            const published_date = document.getElementById('published_date').value;
-
-            fetch(`/books/${bookId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ title, author, genre, published_date })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Update the book in the list
-                const listItems = document.querySelectorAll('#book-list .list-group-item');
-                listItems.forEach(item => {
-                    if (item.textContent.includes(book.title)) {
-                        item.textContent = `ID: ${data.id} - ${data.title} by ${data.author}`; // Update with new data
-                    }
-                });
-                document.getElementById('book-form').reset();
-                document.getElementById('book-form').onsubmit = function(e) {
-                    e.preventDefault();
-                    addBook();
-                };
-            });
-        }
-
-        function deleteBook(bookId, listItem) {
-            fetch(`/books/${bookId}`, {
-                method: 'DELETE'
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Remove the book from the UI
-                    listItem.remove();
-                } else {
-                    console.error('Failed to delete the book');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-    </script>
-</body>
-</html> -->
-
-
-
-
 <!-- <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -177,7 +10,7 @@
     <div class="container">
         <h1 class="mt-5">Library Management System</h1>
 
-        Book Form
+         Book Form 
         <h2 class="mt-4">Add a Book</h2>
         <form id="book-form">
             <input type="text" id="title" placeholder="Title" required>
@@ -190,117 +23,7 @@
         <h2 class="mt-4">Books</h2>
         <ul id="book-list" class="list-group mt-3"></ul>
 
-        Student Registration Form 
-        <h2 class="mt-5">Student Registration</h2>
-        <form id="student-form">
-            <input type="text" id="student-name" placeholder="Name" required>
-            <input type="text" id="rollnumber" placeholder="Roll Number" required>
-            <select id="course" required>
-                <option value="">Select Course</option>
-                <option value="COE">COE</option>
-                <option value="ECE">ECE</option>
-                <option value="ENC">ENC</option>
-                <option value="COPC">COPC</option>
-            </select>
-            <input type="number" id="book_id" placeholder="Book ID (if issued)">
-            <button type="submit" class="btn btn-success">Register Student</button>
-        </form>
-
-        <h2 class="mt-4">Students</h2>
-        <ul id="student-list" class="list-group mt-3"></ul>
-    </div>
-
-    <script>
-        document.getElementById('book-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const title = document.getElementById('title').value;
-            const author = document.getElementById('author').value;
-            const genre = document.getElementById('genre').value;
-            const published_date = document.getElementById('published_date').value;
-
-            fetch('/books', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title, author, genre, published_date })
-            })
-            .then(response => response.json())
-            .then(data => {
-                addBookToList(data);
-                document.getElementById('book-form').reset();
-            });
-        });
-
-        function addBookToList(book) {
-            const li = document.createElement('li');
-            li.className = 'list-group-item';
-            li.textContent = `ID: ${book.id} - ${book.title} by ${book.author}`;
-            document.getElementById('book-list').appendChild(li);
-        }
-
-        document.getElementById('student-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('student-name').value;
-            const rollnumber = document.getElementById('rollnumber').value;
-            const course = document.getElementById('course').value;
-            const book_id = document.getElementById('book_id').value;
-
-            fetch('/students', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, rollnumber, course, book_id })
-            })
-            .then(response => response.json())
-            .then(data => {
-                addStudentToList(data);
-                document.getElementById('student-form').reset();
-            });
-        });
-
-        function addStudentToList(student) {
-            const li = document.createElement('li');
-            li.className = 'list-group-item';
-            li.textContent = `ID: ${student.id} - ${student.name}, Roll No: ${student.rollnumber}, Course: ${student.course}, Book Issued: ${student.book_id || 'None'}`;
-            document.getElementById('student-list').appendChild(li);
-        }
-
-        fetch('/books')
-            .then(response => response.json())
-            .then(books => books.forEach(addBookToList));
-
-        fetch('/students')
-            .then(response => response.json())
-            .then(students => students.forEach(addStudentToList));
-    </script>
-</body>
-</html> -->
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Management System</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container">
-        <h1 class="mt-5">Library Management System</h1>
-
-        <!-- Book Form -->
-        <h2 class="mt-4">Add a Book</h2>
-        <form id="book-form">
-            <input type="text" id="title" placeholder="Title" required>
-            <input type="text" id="author" placeholder="Author" required>
-            <input type="text" id="genre" placeholder="Genre">
-            <input type="date" id="published_date">
-            <button type="submit" class="btn btn-primary">Add Book</button>
-        </form>
-
-        <h2 class="mt-4">Books</h2>
-        <ul id="book-list" class="list-group mt-3"></ul>
-
-        <!-- Student Registration Form -->
+         Student Registration Form 
         <h2 class="mt-5">Student Registration</h2>
         <form id="student-form">
             <input type="text" id="student-name" placeholder="Name" required>
@@ -319,7 +42,7 @@
         <h2 class="mt-4">Students</h2>
         <ul id="student-list" class="list-group mt-3"></ul>
 
-        <!-- Status Section -->
+         Status Section -
         <h2 class="mt-5">Book Return Status</h2>
         <ul id="status-list" class="list-group mt-3"></ul>
 
@@ -510,5 +233,142 @@ fetch('/status')
 
     </script>
 </body>
-</html>
+</html> -->
+ 
 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Library Management System</h1>
+
+        <!-- Book Form -->
+        <h2 class="mt-4">Add a Book</h2>
+        <form id="book-form">
+            <input type="text" id="title" name="title" placeholder="Title" class="form-control mb-2" required>
+            <input type="text" id="author" name="author" placeholder="Author" class="form-control mb-2" required>
+            <input type="text" id="genre" name="genre" placeholder="Genre" class="form-control mb-2">
+            <input type="date" id="published_date" name="published_date" class="form-control mb-2">
+            <button type="submit" class="btn btn-primary">Add Book</button>
+        </form>
+
+        <h2 class="mt-4">Books</h2>
+        <ul id="book-list" class="list-group mt-3"></ul>
+
+        <!-- Student Registration -->
+        <h2 class="mt-4">Student Registration</h2>
+        <form id="student-form">
+            <input type="text" id="student-name" name="name" placeholder="Name" class="form-control mb-2" required>
+            <input type="text" id="rollnumber" name="rollnumber" placeholder="Roll Number" class="form-control mb-2" required>
+            <select id="course" name="course" class="form-control mb-2" required>
+                <option value="">Select Course</option>
+                <option value="COE">COE</option>
+                <option value="ECE">ECE</option>
+                <option value="ENC">ENC</option>
+                <option value="COPC">COPC</option>
+            </select>
+            <input type="text" id="book_id" name="book_id" placeholder="Book ID Issued" class="form-control mb-2">
+            <button type="submit" class="btn btn-success">Register Student</button>
+        </form>
+
+        <h2 class="mt-4">Students</h2>
+        <ul id="student-list" class="list-group mt-3"></ul>
+
+        <!-- Update Book Return Status -->
+        <h2 class="mt-5">Update Book Return Status</h2>
+        <form id="status-form">
+            <input type="text" id="status-rollnumber" name="rollnumber" placeholder="Roll Number" class="form-control mb-2" required>
+            <input type="number" id="status-bookid" name="book_id" placeholder="Book ID" class="form-control mb-2" required>
+            <select id="status-returned" name="returned_status" class="form-control mb-2" required>
+                <option value="">Select Status</option>
+                <option value="true">Returned</option>
+                <option value="false">Not Returned</option>
+            </select>
+            <button type="submit" class="btn btn-warning">Update Status</button>
+        </form>
+
+        <h2 class="mt-4">Book Return Status List</h2>
+        <ul id="status-list" class="list-group mt-3"></ul>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            fetchData("/books", addBookToList);
+            fetchData("/students", addStudentToList);
+            fetchData("/status", addStatusToList);
+        });
+
+        function fetchData(url, callback) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => data.forEach(callback))
+                .catch(error => console.error("Error fetching data:", error));
+        }
+
+        function addBookToList(book) {
+            const li = document.createElement("li");
+            li.className = "list-group-item";
+            li.textContent = `Title: ${book.title}, Author: ${book.author}, Genre: ${book.genre || "N/A"}, Published: ${book.published_date || "N/A"}`;
+            document.getElementById("book-list").appendChild(li);
+        }
+
+        function addStudentToList(student) {
+            if (!student.name || !student.rollnumber) return;
+            const li = document.createElement("li");
+            li.className = "list-group-item";
+            li.textContent = `Name: ${student.name}, Roll No: ${student.rollnumber}, Course: ${student.course}, Issued Book ID: ${student.book_id || "None"}`;
+            document.getElementById("student-list").appendChild(li);
+        }
+
+        function addStatusToList(status) {
+            const li = document.createElement("li");
+            li.className = "list-group-item";
+            li.textContent = `Roll No: ${status.rollnumber}, Book ID: ${status.book_id}, Returned: ${status.returned_status ? "Yes" : "No"}`;
+            document.getElementById("status-list").appendChild(li);
+        }
+
+        function submitForm(url, form, callback) {
+            const formData = new FormData(form);
+            const jsonData = Object.fromEntries(formData);
+
+            if (jsonData.book_id) jsonData.book_id = parseInt(jsonData.book_id, 10) || null;
+            if (jsonData.returned_status) jsonData.returned_status = jsonData.returned_status === "true";
+
+            fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(jsonData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    callback(data);
+                    form.reset();
+                })
+                .catch(error => console.error("Error submitting form:", error));
+        }
+
+        document.getElementById("book-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            submitForm("/books", this, addBookToList);
+        });
+
+        document.getElementById("student-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            submitForm("/students", this, addStudentToList);
+        });
+
+        document.getElementById("status-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            submitForm("/status", this, addStatusToList);
+        });
+    </script>
+</body>
+</html>
